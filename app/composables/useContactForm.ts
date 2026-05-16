@@ -31,6 +31,7 @@ export function useContactForm() {
   }
 
   function validateAll(): boolean {
+    console.log('[contact-form] validation passed', { ...form })
     let valid = true
     for (const { key } of CONTACT_FORM_FIELDS) {
       touched[key] = true
