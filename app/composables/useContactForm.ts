@@ -6,6 +6,7 @@ import {
 import { validateContactField } from '~/utils/validate-contact-form'
 
 export function useContactForm() {
+
   const form = reactive(createEmptyForm())
 
   const errors = reactive<Record<FormField, string>>(
@@ -30,6 +31,7 @@ export function useContactForm() {
   }
 
   function validateAll(): boolean {
+    console.log('[contact-form] validation passed', { ...form })
     let valid = true
     for (const { key } of CONTACT_FORM_FIELDS) {
       touched[key] = true
@@ -42,6 +44,7 @@ export function useContactForm() {
   function submit() {
     if (!validateAll()) return
     console.log('Form submitted:', { ...form })
+    console.log('[contact-form] submit attempt')
   }
 
   return {
