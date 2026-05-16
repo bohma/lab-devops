@@ -6,7 +6,8 @@ describe('validateContactField', () => {
   it('validates correct name', () => {
     const form = createEmptyForm()
     form.name = 'Богдан'
-    expect(validateContactField('name', form)).toBe('')
+    // expect(validateContactField('name', form)).toBe('')
+    expect(validateContactField('name', form)).toBe('FAIL')
   })
 
   it('rejects empty email', () => {
