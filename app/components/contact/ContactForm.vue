@@ -28,7 +28,7 @@ const {
         :rows="field.rows"
         :error="errors[field.key]"
         :touched="touched[field.key]"
-        @blur="touchField(field.key)"
+        @blur="console.log('[contact-form] blur', field.key); touchField(field.key)"
         @input="onFieldInput(field.key)"
       />
 
