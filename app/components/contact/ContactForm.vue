@@ -13,7 +13,7 @@ const {
 <template>
   <main class="contact-page">
     <form class="contact-form" novalidate @submit.prevent="submit">
-      <h1 class="contact-form__title">Контактна форма !</h1>
+      <h1 class="contact-form__title">Контактна форма (main)</h1>
 
       <ContactFormField
         v-for="field in fields"
