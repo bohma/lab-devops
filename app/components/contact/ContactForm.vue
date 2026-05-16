@@ -13,7 +13,11 @@ const {
 <template>
   <main class="contact-page">
     <form class="contact-form" novalidate @submit.prevent="submit">
+<<<<<<< HEAD
       <h1 class="contact-form__title">Контактна форма (main v2)</h1>
+=======
+      <h1 class="contact-form__title">Контактна форма (feature)</h1>
+>>>>>>> d55369d (feat: update form title for logging branch)
 
       <ContactFormField
         v-for="field in fields"
