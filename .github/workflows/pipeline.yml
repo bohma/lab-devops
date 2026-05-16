@@ -1,0 +1,67 @@
+name: Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Stage 1 - Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - run: npm ci
+      - run: npm test
+
+  build:
+    name: Stage 2 - Build
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+      - name: Create build artifact (build-info.txt)
+        run: node scripts/create-build-artifact.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: app-build
+          path: dist-artifact/
+          retention-days: 7
+
+  deploy_staging:
+    name: Stage 3 - Deploy Staging
+    needs: build
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: app-build
+          path: artifact/
+
+      - name: Simulate deploy to staging
+        run: |
+          echo "=========================================="
+          echo "  Deploying to STAGING environment"
+          echo "=========================================="
+          echo ""
+          echo "Artifact contents (build-info.txt):"
+          cat artifact/build-info.txt
+          echo ""
+          echo "Staging deploy complete."
