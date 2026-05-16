@@ -1,0 +1,7 @@
+# Основна директорія застосунку (Nuxt app/)
+/app/ @bohma
+
+# Конфігурація та корінь проєкту
+/nuxt.config.ts @bohma
+/package.json @bohma
+/package-lock.json @bohma
