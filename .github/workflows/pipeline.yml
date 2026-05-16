@@ -65,3 +65,38 @@ jobs:
           cat artifact/build-info.txt
           echo ""
           echo "Staging deploy complete."
+
+  verify_staging:
+    name: Stage 4 - Verify Staging
+    needs: deploy_staging
+    runs-on: ubuntu-latest
+    env:
+      # Для демо падіння (Частина 4): Settings → Variables → SMOKE_FAIL = true
+      SMOKE_FAIL: ${{ vars.SMOKE_FAIL || 'false' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run smoke tests after staging deploy
+        run: node scripts/smoke-verify.mjs
+
+  deploy_production:
+    name: Stage 5 - Deploy Production
+    needs: verify_staging
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: app-build
+          path: artifact/
+
+      - name: Simulate deploy to production
+        run: |
+          echo "=========================================="
+          echo "  Deploying to PRODUCTION environment"
+          echo "=========================================="
+          echo ""
+          echo "Artifact contents (build-info.txt):"
+          cat artifact/build-info.txt
+          echo ""
+          echo "Production deploy complete."
